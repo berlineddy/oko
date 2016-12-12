@@ -1,28 +1,6 @@
+
 use std::fmt;
-
-
-#[derive(Deserialize, Debug)]
-pub struct TickerData {
-    buy: f64,
-    high: f64,
-    last: f64,
-    low: f64,
-    sell: f64,
-    vol: f64,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct Ticker {
-    date: u64,
-    ticker: TickerData,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct Depth {
-    asks: Vec<[f64; 2]>,
-    bids: Vec<[f64; 2]>,
-}
-
+use std::cmp::{Ord, Ordering};
 
 
 #[derive(Debug, PartialEq)]
@@ -63,47 +41,31 @@ impl fmt::Display for TradeType {
 
 #[derive(Deserialize, Debug)]
 pub struct Trade {
-    date: u64,
-    date_ms: u64,
-    price: f64,
-    amount: f64,
-    tid: u64,
+    pub date: u64,
+    pub date_ms: u64,
+    pub price: f64,
+    pub amount: f64,
+    pub tid: u64,
     #[serde(rename="type")]
-    trade_type: TradeType,
+    pub trade_type: TradeType,
 }
+impl PartialEq for Trade {
+    fn eq(&self, other: &Trade) -> bool {
+        self.tid == other.tid
+    }
+}
+impl Ord for Trade {
+    fn cmp(&self, other: &Trade) -> Ordering {
+        self.tid.cmp(&other.tid)
+    }
+}
+impl PartialOrd for Trade {
+    fn partial_cmp(&self, other: &Trade) -> Option<Ordering> {
+        Some(self.tid.cmp(&other.tid))
+    }
+}
+impl Eq for Trade {}
 
-#[derive(Deserialize, Debug)]
-pub struct Asset {
-    net: f64,
-    total: f64,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct Amount {
-    btc: f64,
-    ltc: f64,
-    usd: Option<f64>,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct Funds {
-    asset: Asset,
-    borrow: Option<Amount>,
-    free: Amount,
-    freezed: Amount,
-    union_fund: Option<Amount>,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct Info {
-    funds: Funds,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct UserInfo {
-    result: bool,
-    info: Info,
-}
 
 #[derive(Deserialize, Debug)]
 pub struct TradeResponse {

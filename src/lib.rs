@@ -8,15 +8,14 @@ extern crate hyper;
 extern crate md5;
 extern crate serde_urlencoded;
 
-pub mod oko_types;
-pub use oko_types::*;
+mod types;
+pub use types::*;
 
 pub mod spot_price;
 
 pub mod spot_trading;
 
 mod oko_error;
-pub use oko_error::OkoError;
-pub use oko_error::APIError;
+pub use oko_error::*;
 
 mod client;
