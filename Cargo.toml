@@ -1,0 +1,16 @@
+[package]
+name = "oko"
+version = "0.1.0"
+authors = ["Eddy Stefes <eduard.stefes@googlemail.com>"]
+
+[dependencies]
+env_logger = "*"
+serde = "*"
+serde_json = "*"
+serde_derive = "*"
+hyper = "*"
+md5 = "*"
+serde_urlencoded = "0.2.1"
+#[dependencies.ws]
+#version = "*"
+#features = ["ssl"]
