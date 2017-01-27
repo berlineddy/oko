@@ -2,8 +2,13 @@
 name = "oko"
 version = "0.1.0"
 authors = ["Eddy Stefes <eduard.stefes@googlemail.com>"]
+build = "build.rs"
+
+[lib]
+crate-type = ["cdylib"]
 
 [dependencies]
+libc = "*"
 env_logger = "*"
 serde = "*"
 serde_json = "*"
@@ -11,6 +16,10 @@ serde_derive = "*"
 hyper = "*"
 md5 = "*"
 serde_urlencoded = "0.2.1"
+
+[build-dependencies]
+rusty-cheddar = "*"
+
 #[dependencies.ws]
 #version = "*"
 #features = ["ssl"]
