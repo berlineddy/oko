@@ -21,5 +21,3 @@ pub use oko_error::*;
 
 mod client;
 
-mod extern_c;
-pub use extern_c::*;
