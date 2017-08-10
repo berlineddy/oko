@@ -1,6 +1,5 @@
 
-#[repr(C)]
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Serialize)]
 pub struct TickerData {
     buy: f64,
     high: f64,
@@ -10,8 +9,7 @@ pub struct TickerData {
     vol: f64,
 }
 
-#[repr(C)]
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Serialize)]
 pub struct Ticker {
     date: u64,
     ticker: TickerData,

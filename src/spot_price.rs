@@ -19,32 +19,16 @@ impl SpotPriceApi {
 
     pub fn ticker(&self) -> Result<Ticker, OkoError> {
         Ok(try!(serde_json::from_str::<Ticker>(&try!(self.client
-            .get(&format!("https://www.okcoin.com/api/v1/ticker.do?symbol={}",
-                          if self.api == TradeApi::BTC {
-                              "btc_usd"
-                          } else {
-                              "ltc_usd"
-                          }))))))
+            .get(&format!("https://www.okcoin.com/api/v1/ticker.do?symbol={}", self.api))))))
     }
 
     pub fn trades(&self, since: u64) -> Result<Vec<Trade>, OkoError> {
         Ok(try!(serde_json::from_str::<Vec<Trade>>(&try!(self.client
-            .get(&format!("https://www.okcoin.com/api/v1/trades.do?since={}?symbol={}",
-                          since,
-                          if self.api == TradeApi::BTC {
-                              "btc_usd"
-                          } else {
-                              "ltc_usd"
-                          }))))))
+            .get(&format!("https://www.okcoin.com/api/v1/trades.do?since={}?symbol={}", since, self.api))))))
     }
 
     pub fn depth(&self) -> Result<Depth, OkoError> {
         Ok(try!(serde_json::from_str::<Depth>(&try!(self.client
-            .get(&format!("https://www.okcoin.com/api/v1/depth.do?symbol={}",
-                          if self.api == TradeApi::BTC {
-                              "btc_usd"
-                          } else {
-                              "ltc_usd"
-                          }))))))
+            .get(&format!("https://www.okcoin.com/api/v1/depth.do?symbol={}", self.api ))))))
     }
 }

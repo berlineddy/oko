@@ -3,21 +3,25 @@ use std::fmt;
 use std::cmp::{Ord, Ordering};
 
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
 pub enum TradeApi {
     BTC,
     LTC,
+    ETH,
+    ETC,
 }
 impl fmt::Display for TradeApi {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             &TradeApi::BTC => write!(f, "btc_usd"),
-            &TradeApi::LTC => write!(f, "ltc_usd"),
+	    &TradeApi::LTC => write!(f, "ltc_usd"),
+            &TradeApi::ETC => write!(f, "etc_usd"),
+            &TradeApi::ETH => write!(f, "eth_usd"),
         }
     }
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Serialize)]
 pub enum TradeType {
     #[serde(rename="sell")]
     Sell,
@@ -39,7 +43,7 @@ impl fmt::Display for TradeType {
     }
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Serialize)]
 pub struct Trade {
     pub date: u64,
     pub date_ms: u64,
@@ -67,7 +71,7 @@ impl PartialOrd for Trade {
 impl Eq for Trade {}
 
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Serialize)]
 pub struct TradeResponse {
     order_id: u64,
     result: bool,
