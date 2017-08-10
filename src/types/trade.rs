@@ -1,3 +1,4 @@
+use types::deserialize::*;
 
 use std::fmt;
 use std::cmp::{Ord, Ordering};

@@ -1,3 +1,4 @@
+use types::deserialize::*;
 
 #[derive(Deserialize, Debug, Serialize)]
 pub struct Asset {

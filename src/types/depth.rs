@@ -1,3 +1,5 @@
+use types::deserialize::*;
+
 #[derive(Deserialize, Debug, Serialize)]
 pub struct Depth {
     pub asks: Vec<[f64; 2]>,

@@ -1,16 +1,24 @@
+use types::deserialize::*;
 
 #[derive(Deserialize, Debug, Serialize)]
 pub struct TickerData {
-    buy: f64,
-    high: f64,
-    last: f64,
-    low: f64,
-    sell: f64,
-    vol: f64,
+   #[serde(deserialize_with = "string_to_f64")]
+    pub buy: f64,
+   #[serde(deserialize_with = "string_to_f64")]
+    pub high: f64,
+   #[serde(deserialize_with = "string_to_f64")]
+    pub last: f64,
+   #[serde(deserialize_with = "string_to_f64")]
+    pub low: f64,
+   #[serde(deserialize_with = "string_to_f64")]
+    pub sell: f64,
+   #[serde(deserialize_with = "string_to_f64")]
+    pub vol: f64,
 }
 
 #[derive(Deserialize, Debug, Serialize)]
 pub struct Ticker {
-    date: u64,
-    ticker: TickerData,
+   #[serde(deserialize_with = "string_to_u64")]
+    pub date: u64,
+    pub ticker: TickerData,
 }

@@ -13,11 +13,11 @@ use std::thread;
 
 fn main() {
 
-    let s = SpotPriceApi::new(TradeApi::BTC);
+    let s = SpotPriceApi::new(TradeApi::ETH);
     // let t = SpotTradingApi::new(TradeApi::BTC,
   
-    let x = s.ticker().unwrap();
+    let x = s.depth().unwrap();
     let mut wtr = csv::Writer::from_writer(std::io::stdout());
-    wtr.serialize(x);
+    wtr.serialize(x.asks);
     wtr.flush();
 }
