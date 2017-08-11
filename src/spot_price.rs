@@ -1,7 +1,7 @@
 use serde_json;
 
 use client::Client;
-use {Depth, Trade, TradeApi, Ticker, OkoError};
+use {Depth, DepthC, Trade, TradeApi, Ticker, OkoError};
 
 #[derive(Debug)]
 pub struct SpotPriceApi {
@@ -28,7 +28,7 @@ impl SpotPriceApi {
     }
 
     pub fn depth(&self) -> Result<Depth, OkoError> {
-        Ok(try!(serde_json::from_str::<Depth>(&try!(self.client
-            .get(&format!("https://www.okcoin.com/api/v1/depth.do?symbol={}", self.api ))))))
+        Ok(try!(serde_json::from_str::<DepthC>(&try!(self.client
+            .get(&format!("https://www.okcoin.com/api/v1/depth.do?symbol={}", self.api ))))).into())
     }
 }

@@ -4,12 +4,8 @@ extern crate csv;
 extern crate clap;
 
 use oko::spot_price::SpotPriceApi;
-use oko::spot_trading::SpotTradingApi;
+//use oko::spot_trading::SpotTradingApi;
 use oko::TradeApi;
-use oko::APIError;
-
-use std::error::Error;
-use std::thread;
 
 
 fn main() {
@@ -55,20 +51,20 @@ fn main() {
     };
     
     if matches.is_present("depth") {
-      let x = s.depth().unwrap();
-      wtr.serialize(x.asks);
-      wtr.flush();
+      let x= s.depth().unwrap();
+      for i in x.depth {
+	wtr.serialize(i).expect("Could not serialize Market Depth");
+      }
     }
     if matches.is_present("ticker") {
       let x = s.ticker().unwrap();
-      wtr.serialize(x.ticker);
-      wtr.flush();
+      wtr.serialize(x.ticker).expect("Could not serialize Market Ticker");
     }
     if matches.is_present("trades") {
       let x = s.trades().unwrap();
       for i in x {
-	wtr.serialize(i);
+	wtr.serialize(i).expect("Could not serialize Market Trades");
       }
-      wtr.flush();
     }
+    wtr.flush().expect("Could not flush stdout");
 }

@@ -24,22 +24,28 @@ impl fmt::Display for TradeApi {
 
 #[derive(Deserialize, Debug, Serialize)]
 pub enum TradeType {
+    #[serde(rename="ask")]
+    Ask,
+    #[serde(rename="bid")]
+    Bid,
     #[serde(rename="sell")]
     Sell,
     #[serde(rename="buy")]
     Buy,
-    #[serde(rename="market_sell")]
+    #[serde(rename="sell_market")]
     MarketSell,
-    #[serde(rename="")]
+    #[serde(rename="buy_market")]
     MarketBuy,
 }
 impl fmt::Display for TradeType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
+	    &TradeType::Ask => write!(f, "ask"),
+            &TradeType::Bid => write!(f, "bid"),
             &TradeType::Sell => write!(f, "sell"),
             &TradeType::Buy => write!(f, "buy"),
-            &TradeType::MarketBuy => write!(f, "market_buy"),
-            &TradeType::MarketSell => write!(f, "market_sell"),
+            &TradeType::MarketBuy => write!(f, "buy_market"),
+            &TradeType::MarketSell => write!(f, "sell_market"),
         }
     }
 }
