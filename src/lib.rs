@@ -1,7 +1,6 @@
 #![feature(proc_macro)]
 
 extern crate serde;
-extern crate csv;
 
 #[macro_use]
 extern crate serde_derive;

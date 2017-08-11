@@ -22,9 +22,9 @@ impl SpotPriceApi {
             .get(&format!("https://www.okcoin.com/api/v1/ticker.do?symbol={}", self.api))))))
     }
 
-    pub fn trades(&self, since: u64) -> Result<Vec<Trade>, OkoError> {
+    pub fn trades(&self) -> Result<Vec<Trade>, OkoError> {
         Ok(try!(serde_json::from_str::<Vec<Trade>>(&try!(self.client
-            .get(&format!("https://www.okcoin.com/api/v1/trades.do?since={}?symbol={}", since, self.api))))))
+            .get(&format!("https://www.okcoin.com/api/v1/trades.do?symbol={}", self.api))))))
     }
 
     pub fn depth(&self) -> Result<Depth, OkoError> {

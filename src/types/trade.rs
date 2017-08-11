@@ -48,7 +48,9 @@ impl fmt::Display for TradeType {
 pub struct Trade {
     pub date: u64,
     pub date_ms: u64,
+   #[serde(deserialize_with = "string_to_f64")]
     pub price: f64,
+   #[serde(deserialize_with = "string_to_f64")]
     pub amount: f64,
     pub tid: u64,
     #[serde(rename="type")]
