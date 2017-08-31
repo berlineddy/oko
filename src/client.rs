@@ -27,8 +27,7 @@ impl Client {
                 assert_eq!(s.len(), 2);
 
                 let proxy_url = s[0].to_owned();
-                let proxy_port: u16 = s[1].parse()
-                    .expect("http_proxy PORT missconfigured!");
+                let proxy_port: u16 = s[1].parse().expect("http_proxy PORT missconfigured!");
 
                 hyper::Client::with_http_proxy(proxy_url, proxy_port)
             } else {
@@ -44,17 +43,22 @@ impl Client {
         Ok(x)
     }
 
-    pub fn post<T: hyper::client::IntoUrl, S: Into<String>>(&self,
-                                                            url: T,
-                                                            body: S)
-                                                            -> Result<String, OkoError> {
+    pub fn post<T: hyper::client::IntoUrl, S: Into<String>>(
+        &self,
+        url: T,
+        body: S,
+    ) -> Result<String, OkoError> {
 
-        let mut res = try!(self.handle
-            .post(url)
-            .header(ContentType::form_url_encoded())
-            .header(Accept(vec![qitem(Mime(TopLevel::Star, SubLevel::Star, vec![]))]))
-            .body(&body.into())
-            .send());
+        let mut res = try!(
+            self.handle
+                .post(url)
+                .header(ContentType::form_url_encoded())
+                .header(Accept(
+                    vec![qitem(Mime(TopLevel::Star, SubLevel::Star, vec![]))],
+                ))
+                .body(&body.into())
+                .send()
+        );
         let mut x = String::new();
         try!(res.read_to_string(&mut x));
         match serde_json::from_str::<ErrorResponse>(&x) {

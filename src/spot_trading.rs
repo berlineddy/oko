@@ -54,35 +54,53 @@ impl SpotTradingApi {
     pub fn userinfo(&self) -> Result<UserInfo, OkoError> {
         let x: Vec<(String, Option<String>)> = Vec::new();
 
-        Ok(try!(serde_json::from_str::<UserInfo>(&try!(self.client
-            .post(&format!("https://www.okcoin.com/api/v1/userinfo.do"),
-                  self.sign(x))))))
+        Ok(try!(
+            serde_json::from_str::<UserInfo>(&try!(self.client.post(
+                &format!(
+                    "https://www.okcoin.com/api/v1/userinfo.do"
+                ),
+                self.sign(x),
+            )))
+        ))
     }
 
     pub fn trade_history(&self, since: u64) -> Result<Vec<Trade>, OkoError> {
-        let x: Vec<(String, Option<String>)> = vec![("since".into(), Some(format!("{}", since))),
-                                                    ("symbol".into(),
-                                                     Some(format!("{}", self.api)))];
+        let x: Vec<(String, Option<String>)> = vec![
+            ("since".into(), Some(format!("{}", since))),
+            ("symbol".into(), Some(format!("{}", self.api))),
+        ];
 
-        Ok(try!(serde_json::from_str::<Vec<Trade>>(&try!(self.client
-            .post(&format!("https://www.okcoin.com/api/v1/trade_history.do"),
-                  self.sign(x))))))
+        Ok(try!(
+            serde_json::from_str::<Vec<Trade>>(&try!(self.client.post(
+                &format!(
+                    "https://www.okcoin.com/api/v1/trade_history.do"
+                ),
+                self.sign(x),
+            )))
+        ))
     }
 
-    pub fn trade(&self,
-                 trade_type: TradeType,
-                 amount: f64,
-                 price: f64)
-                 -> Result<TradeResponse, OkoError> {
-        let x: Vec<(String, Option<String>)> =
-            vec![("price".into(), Some(format!("{}", price))),
-                 ("type".into(), Some(format!("{}", trade_type))),
-                 ("amount".into(), Some(format!("{}", amount))),
-                 ("symbol".into(), Some(format!("{}", self.api)))];
+    pub fn trade(
+        &self,
+        trade_type: TradeType,
+        amount: f64,
+        price: f64,
+    ) -> Result<TradeResponse, OkoError> {
+        let x: Vec<(String, Option<String>)> = vec![
+            ("price".into(), Some(format!("{}", price))),
+            ("type".into(), Some(format!("{}", trade_type))),
+            ("amount".into(), Some(format!("{}", amount))),
+            ("symbol".into(), Some(format!("{}", self.api))),
+        ];
 
-        Ok(try!(serde_json::from_str::<TradeResponse>(&try!(self.client
-            .post(&format!("https://www.okcoin.com/api/v1/trade.do"),
-                  self.sign(x))))))
+        Ok(try!(serde_json::from_str::<TradeResponse>(
+            &try!(self.client.post(
+                &format!(
+                    "https://www.okcoin.com/api/v1/trade.do"
+                ),
+                self.sign(x),
+            )),
+        )))
 
     }
 }

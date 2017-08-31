@@ -4,7 +4,7 @@ use std::fmt;
 use std::cmp::{Ord, Ordering};
 
 
-#[derive(Debug, PartialEq, Serialize)]
+#[derive(Debug, PartialEq, Serialize, Clone, Copy)]
 pub enum TradeApi {
     BTC,
     LTC,
@@ -15,7 +15,7 @@ impl fmt::Display for TradeApi {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             &TradeApi::BTC => write!(f, "btc_usd"),
-	    &TradeApi::LTC => write!(f, "ltc_usd"),
+            &TradeApi::LTC => write!(f, "ltc_usd"),
             &TradeApi::ETC => write!(f, "etc_usd"),
             &TradeApi::ETH => write!(f, "eth_usd"),
         }
@@ -24,23 +24,23 @@ impl fmt::Display for TradeApi {
 
 #[derive(Deserialize, Debug, Serialize)]
 pub enum TradeType {
-    #[serde(rename="ask")]
+    #[serde(rename = "ask")]
     Ask,
-    #[serde(rename="bid")]
+    #[serde(rename = "bid")]
     Bid,
-    #[serde(rename="sell")]
+    #[serde(rename = "sell")]
     Sell,
-    #[serde(rename="buy")]
+    #[serde(rename = "buy")]
     Buy,
-    #[serde(rename="sell_market")]
+    #[serde(rename = "sell_market")]
     MarketSell,
-    #[serde(rename="buy_market")]
+    #[serde(rename = "buy_market")]
     MarketBuy,
 }
 impl fmt::Display for TradeType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-	    &TradeType::Ask => write!(f, "ask"),
+            &TradeType::Ask => write!(f, "ask"),
             &TradeType::Bid => write!(f, "bid"),
             &TradeType::Sell => write!(f, "sell"),
             &TradeType::Buy => write!(f, "buy"),
@@ -54,12 +54,12 @@ impl fmt::Display for TradeType {
 pub struct Trade {
     pub date: u64,
     pub date_ms: u64,
-   #[serde(deserialize_with = "string_to_f64")]
+    #[serde(deserialize_with = "string_to_f64")]
     pub price: f64,
-   #[serde(deserialize_with = "string_to_f64")]
+    #[serde(deserialize_with = "string_to_f64")]
     pub amount: f64,
     pub tid: u64,
-    #[serde(rename="type")]
+    #[serde(rename = "type")]
     pub trade_type: TradeType,
 }
 impl PartialEq for Trade {
