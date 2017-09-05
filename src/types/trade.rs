@@ -1,3 +1,4 @@
+
 use types::deserialize::*;
 
 use std::fmt;
@@ -11,6 +12,7 @@ pub enum TradeApi {
     ETH,
     ETC,
 }
+
 impl fmt::Display for TradeApi {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
@@ -21,8 +23,21 @@ impl fmt::Display for TradeApi {
         }
     }
 }
+impl<T> From<T> for TradeApi 
+    where T: Into<String>{
+    fn from(val: T) -> Self {
+        let x = val.into();
+        match x.as_ref() {
+            "BTC" => TradeApi::BTC,
+            "ETH" => TradeApi::ETH,
+            "ETC" => TradeApi::ETC,
+            "LTC" => TradeApi::LTC,
+            _ => TradeApi::BTC,
+        }
+    }
+}
 
-#[derive(Deserialize, Debug, Serialize)]
+#[derive(PartialEq, Deserialize, Debug, Serialize)]
 pub enum TradeType {
     #[serde(rename = "ask")]
     Ask,
@@ -46,6 +61,21 @@ impl fmt::Display for TradeType {
             &TradeType::Buy => write!(f, "buy"),
             &TradeType::MarketBuy => write!(f, "buy_market"),
             &TradeType::MarketSell => write!(f, "sell_market"),
+        }
+    }
+}
+impl<T> From<T> for TradeType 
+    where T: Into<String>{
+    fn from(val: T) -> Self {
+        let x = val.into();
+        match x.as_ref() {
+            "ask" => TradeType::Ask,
+            "bid" => TradeType::Bid,
+            "sell" => TradeType::Sell,
+            "buy" => TradeType::Buy,
+            "buy_market" => TradeType::MarketBuy,
+            "sell_market" => TradeType::MarketSell,
+            _ => TradeType::Buy,
         }
     }
 }

@@ -2,8 +2,7 @@ use std::env;
 use std::io::Read;
 
 use hyper;
-use hyper::header::{ContentType, Accept, qitem};
-use hyper::mime::{Mime, TopLevel, SubLevel};
+use hyper::header::{ContentType, AcceptEncoding, Encoding, qitem};
 use serde_json;
 
 use OkoError;
@@ -53,9 +52,7 @@ impl Client {
             self.handle
                 .post(url)
                 .header(ContentType::form_url_encoded())
-                .header(Accept(
-                    vec![qitem(Mime(TopLevel::Star, SubLevel::Star, vec![]))],
-                ))
+                .header(AcceptEncoding(vec![qitem(Encoding::Identity)]))
                 .body(&body.into())
                 .send()
         );

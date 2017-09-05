@@ -23,22 +23,22 @@ pub struct SpotTradingApi {
 impl SpotTradingApi {
     fn sign(&self, mut args: Vec<(String, Option<String>)>) -> String {
         args.push(("api_key".into(), Some(self.api_key.clone())));
-        args.sort_by(|a, b| a.0.to_lowercase().cmp(&b.0.to_lowercase()));
 
         let mut _arg = String::new();
-
         _arg = serde_urlencoded::to_string(&args).expect("formating key failed!");
 
-        let mut sign_s = _arg.clone();
+        args.sort_by(|a, b| a.0.to_lowercase().cmp(&b.0.to_lowercase()));
+
+        let mut sign_s = serde_urlencoded::to_string(&args).expect("formating key failed!");
+
         write!(sign_s, "&{}={}", "secret_key", self.secret.clone()).expect("formating key failed!");
 
         let mut sign_k = String::new();
         for value in md5::compute(sign_s.as_bytes()).into_iter() {
-            write!(sign_k, "{:X}", value).expect("formating key failed!");
+            write!(sign_k, "{:02X}", value).expect("formating key failed!");
         }
 
         write!(_arg, "&{}={}", "sign", sign_k).expect("formating key failed!");
-
         _arg
     }
 
